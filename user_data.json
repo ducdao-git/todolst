@@ -1,0 +1,33 @@
+{
+    "dark mode": 0,
+    "largest id": 3,
+    "tasks": [{
+            "id": 0,
+            "subject": "cs230 hw1",
+            "time": "2021-03-12 23:59",
+            "priority": "none",
+            "completed": 1
+        },
+        {
+            "id": 1,
+            "subject": "cs230 hw2",
+            "time": "2021-03-13 23:59",
+            "priority": "none",
+            "completed": 1
+        },
+        {
+            "id": 2,
+            "subject": "cs230 hw3",
+            "time": "2021-03-14 23:59",
+            "priority": "none",
+            "completed": 0
+        },
+        {
+            "id": 3,
+            "subject": "cs230 hw4",
+            "time": "2021-03-15 23:59",
+            "priority": "none",
+            "completed": 0
+        }
+    ]
+}
