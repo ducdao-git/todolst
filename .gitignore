@@ -130,3 +130,6 @@ dmypy.json
 
 # json sample files
 *.json
+
+# Pycharm files
+.idea/

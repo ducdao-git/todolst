@@ -12,6 +12,8 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 
 from screen_2 import add_task_to_json, update_remaining_tasks
 
+from screen_4 import populate_tasks
+
 
 class WindowOne(Screen):
     pass
@@ -30,7 +32,9 @@ class WindowThree(Screen):
 
 
 class WindowFour(Screen):
-    pass
+    def on_enter(self, *args):
+        data = []
+        populate_tasks(self, data)
 
 
 class WindowManager(ScreenManager):
