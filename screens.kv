@@ -26,6 +26,7 @@ WindowManager:
                 on_release:
                     app.root.current = "window_three"
                     root.manager.transition.direction = "left"
+
         ScrollView:
             size_hint_y: 10
             Label:
@@ -72,13 +73,14 @@ WindowManager:
             Button:
                 text: "Register Task"
                 on_release:
-                    root.add_task_to_json()
+                    root.add_task()
 
             Button:
                 text: "Go Back"
                 on_release:
                     app.root.current = "window_one"
                     root.manager.transition.direction = "right"
+                    root.update_tasks()
 
 <WindowThree>:
     name: "window_three"
