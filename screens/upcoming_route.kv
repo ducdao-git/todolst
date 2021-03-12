@@ -1,4 +1,6 @@
 <UpcomingRoute>:
+#    layout_content: layout_content
+
     BoxLayout:
         size: root.size
         orientation: 'vertical'
@@ -28,7 +30,6 @@
         FloatLayout:
             ScrollView:
                 do_scroll: False, True
-                size: self.size
                 canvas.before:
                     Color:
                         rgba: [1,1,1,1]
@@ -36,26 +37,56 @@
                         size: self.size
                         pos: self.pos
 
-                Label: # work with single label but not function with grid/box layout
-                    size_hint: 1, None
-                    height: self.texture_size[1]
-                    text_size: self.width, None
-                    padding: 10, 10
-                    text: 'diff tasks label\n' * 100
-                    color: [0, 0, 0, 1]
+                GridLayout: # must specify height to scrollable
+                    cols: 1
+                    size_hint_y: None
+                    height: self.minimum_height  # minimum_height is min height to contain all children
+                    spacing: [0, dp(16)]
+                    padding: [dp(16), dp(16), dp(16), dp(16)]
 
+                    ################################################ sample items
+                    Label:
+                        text_size: self.width, None
+                        size_hint: 1, None
+                        height: self.texture_size[1]  # width = texture_size[0]
+                        text: "Video provides a powerful way to help you prove your point. When you click Online Video, you can paste in the embed code for the video you want to add. You can also type a keyword to search online for the video that best fits your document. To make your document look professionally produced, Word provides header, footer, cover page, and text box designs that complement each other. For example, you can add a matching cover page, header, and sidebar. Click Insert and then choose the elements you want from the different galleries. Themes and styles also help keep your document coordinated. When you click Design and choose a new Theme, the pictures, charts, and SmartArt graphics change to match your new theme. When you apply styles, your headings change to match the new theme. Save time in Word with new buttons that show up where you need them."
+                        color: [0, 0, 0, 1]
 
-#                GridLayout: # not work yet
-#                    id: layout_content
-#                    size_hint_y: None
-#                    cols: 1
-#                    row_default_height: '20dp'
-#                    row_force_default: True
-#                    spacing: 0, 0
-#                    padding: 0, 0
-#
-#                    Label:
-#                        text: "Lorem ipsum dolor sit amet"
+                    Label:
+                        text_size: self.width, None
+                        size_hint: 1, None
+                        height: self.texture_size[1]  # width = texture_size[0]
+                        text: "short text."
+                        color: [0, 0, 0, 1]
+
+                    Label:
+                        text_size: self.width, None
+                        size_hint: 1, None
+                        height: self.texture_size[1]  # width = texture_size[0]
+                        text: "Video provides a powerful way to help you prove your point. When you click Online Video, you can paste in the embed code for the video you want to add. You can also type a keyword to search online for the video that best fits your document. To make your document look professionally produced, Word provides header, footer, cover page, and text box designs that complement each other. For example, you can add a matching cover page, header, and sidebar. Click Insert and then choose the elements you want from the different galleries. Themes and styles also help keep your document coordinated. When you click Design and choose a new Theme, the pictures, charts, and SmartArt graphics change to match your new theme. When you apply styles, your headings change to match the new theme. Save time in Word with new buttons that show up where you need them."
+                        color: [0, 0, 0, 1]
+
+                    Label:
+                        text_size: self.width, None
+                        size_hint: 1, None
+                        height: self.texture_size[1]  # width = texture_size[0]
+                        text: "Video provides a powerful way to help you prove your point. When you click Online Video, you can paste in the embed code for the video you want to add. You can also type a keyword to search online for the video that best fits your document. To make your document look professionally produced, Word provides header, footer, cover page, and text box designs that complement each other. For example, you can add a matching cover page, header, and sidebar. Click Insert and then choose the elements you want from the different galleries. Themes and styles also help keep your document coordinated. When you click Design and choose a new Theme, the pictures, charts, and SmartArt graphics change to match your new theme. When you apply styles, your headings change to match the new theme. Save time in Word with new buttons that show up where you need them."
+                        color: [0, 0, 0, 1]
+
+                    Label:
+                        text_size: self.width, None
+                        size_hint: 1, None
+                        height: self.texture_size[1]  # width = texture_size[0]
+                        text: "short text."
+                        color: [0, 0, 0, 1]
+
+                    Label:
+                        text_size: self.width, None
+                        size_hint: 1, None
+                        height: self.texture_size[1]  # width = texture_size[0]
+                        text: "Video provides a powerful way to help you prove your point. When you click Online Video, you can paste in the embed code for the video you want to add. You can also type a keyword to search online for the video that best fits your document. To make your document look professionally produced, Word provides header, footer, cover page, and text box designs that complement each other. For example, you can add a matching cover page, header, and sidebar. Click Insert and then choose the elements you want from the different galleries. Themes and styles also help keep your document coordinated. When you click Design and choose a new Theme, the pictures, charts, and SmartArt graphics change to match your new theme. When you apply styles, your headings change to match the new theme. Save time in Word with new buttons that show up where you need them."
+                        color: [0, 0, 0, 1]
+                    ################################################
 
             AnchorLayout:
                 anchor_x: 'right'
