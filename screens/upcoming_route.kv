@@ -1,0 +1,79 @@
+<UpcomingRoute>:
+    BoxLayout:
+        size: root.size
+        orientation: 'vertical'
+
+        Label:
+            text: 'status bar'
+            size_hint: 1, None
+            height: dp(24)
+            canvas.before:
+                Color:
+                    rgba: root.primary_variant_color
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+
+        Label:
+            text: 'action bar'
+            size_hint: 1, None
+            height: dp(56)
+            canvas.before:
+                Color:
+                    rgba: root.primary_color
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+
+        FloatLayout:
+            ScrollView:
+                do_scroll: False, True
+                size: self.size
+                canvas.before:
+                    Color:
+                        rgba: [1,1,1,1]
+                    Rectangle:
+                        size: self.size
+                        pos: self.pos
+
+                Label: # work with single label but not function with grid/box layout
+                    size_hint: 1, None
+                    height: self.texture_size[1]
+                    text_size: self.width, None
+                    padding: 10, 10
+                    text: 'diff tasks label\n' * 100
+                    color: [0, 0, 0, 1]
+
+
+#                GridLayout: # not work yet
+#                    id: layout_content
+#                    size_hint_y: None
+#                    cols: 1
+#                    row_default_height: '20dp'
+#                    row_force_default: True
+#                    spacing: 0, 0
+#                    padding: 0, 0
+#
+#                    Label:
+#                        text: "Lorem ipsum dolor sit amet"
+
+            AnchorLayout:
+                anchor_x: 'right'
+                anchor_y: 'bottom'
+                padding: [0, 0, dp(16), dp(16)]
+
+                Button:
+                    size_hint: None, None
+                    size: dp(50), dp(50)
+                    background_normal: ''
+                    background_color: (0,0,0,0)
+                    text: '+'
+                    font_size: 40
+
+                    canvas.before:
+                        Color:
+                            rgba: root.secondary_color
+                        Ellipse:
+                            size: self.size
+                            pos: self.pos
+
