@@ -2,6 +2,10 @@ import json
 import datetime
 
 
+# date = '%Y-%m-%d'
+# data_time = '%Y-%m-%d %H:%M'
+
+
 def theme_setting(theme_name):
     """
     :param theme_name: name of the theme - todolst, dark
@@ -111,6 +115,7 @@ def get_upcoming_tasks():
     except Exception as e:
         print(e)
 
+
 # def get_next7days_tasks(upcoming_on_time_tasks):
 #     """
 #     :return:
@@ -123,3 +128,32 @@ def get_upcoming_tasks():
 #
 #
 # get_next7days_tasks()
+
+
+def get_completed_tasks():
+    try:
+        with open('../user_data.json', 'r') as f:
+            data = json.load(f)
+
+        completed_tasks = data['completed']
+        curr_datetime = datetime.datetime.now()
+        period_24h = datetime.timedelta(days=1)
+
+        # remove task completed more than 24 hours
+        for task, index in zip(completed_tasks, range(len(completed_tasks))):
+            completed_time_obj = datetime.datetime.strptime(
+                task['completed_time'], '%Y-%m-%d %H:%M')
+
+            if (curr_datetime - completed_time_obj) > period_24h:
+                del completed_tasks[index]
+            else:
+                task['completed_time'] = completed_time_obj
+
+        # print(completed_tasks)
+        return completed_tasks
+
+    except Exception as e:
+        print(e)
+
+
+get_completed_tasks()

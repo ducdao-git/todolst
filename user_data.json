@@ -7,7 +7,7 @@
         {
           "id": 0,
           "subject": "cs230 hw1",
-          "time": "2:59",
+          "time": "23:59",
           "priority": "none"
         }
       ]
@@ -153,23 +153,23 @@
     {
       "id": 1,
       "subject": "cs230 hw2",
-      "time": "23:59",
+      "time": "2021-03-13 23:59",
       "priority": "none",
-      "completed_time": "21:59"
+      "completed_time": "2021-03-12 10:59"
     },
     {
       "id": 10,
       "subject": "cs230 hw11",
-      "time": "23:59",
+      "time": "2021-03-15 23:59",
       "priority": "none",
-      "completed_time": "13:20"
+      "completed_time": "2021-03-13 13:20"
     },
     {
       "id": 12,
       "subject": "cs230 hw13",
-      "time": "23:59",
+      "time": "2021-03-16 23:59",
       "priority": "none",
-      "completed_time": "10:30"
+      "completed_time": "2021-03-13 10:30"
     }
   ]
 }

@@ -1,6 +1,6 @@
 from kivy.app import App
 
-from libs.setting import theme_setting
+from libs.get_data import theme_setting
 from screens.upcoming_route import UpcomingRoute
 
 
