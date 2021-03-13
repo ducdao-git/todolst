@@ -56,99 +56,114 @@ def add_item_to_dict(dict_obj, key, value):
             dict_obj[key].append(value)
 
 
-def get_upcoming_tasks():
+def get_upcoming_tasks(upcoming_data):
     """
-    :return: upcoming tasks separate in overdue or on_time dict
+    format upcoming_data to time object and put in to 2 categories overdue
+    and on_time
+    :return: dict of overdue and on_time dict upcoming tasks
+    """
+
+    upcoming_tasks = {'overdue': {}, 'on_time': {}}
+    curr_date = datetime.date.today()
+
+    for date in upcoming_data:
+        # put all existed overdue tasks to new overdue
+        if date == 'overdue':
+            for overdue_date in upcoming_data['overdue']:
+                overdue_date_obj = datetime.datetime. \
+                    strptime(overdue_date, "%Y-%m-%d").date()
+                upcoming_tasks['overdue'][overdue_date_obj] = \
+                    upcoming_data['overdue'][overdue_date]
+
+        # check if task can go to overdue or on_time
+        else:
+            due_date_obj = datetime.datetime. \
+                strptime(date, "%Y-%m-%d").date()
+
+            # all tasks with date prior than today will go in overdue
+            if due_date_obj < curr_date:
+                add_item_to_dict(upcoming_tasks['overdue'], due_date_obj,
+                                 upcoming_data[date])
+
+            # if task with today date then check time
+            elif due_date_obj == curr_date:
+                curr_time = datetime.datetime.now().time()
+
+                # all tasks with pasted time will go in overdue
+                for task in upcoming_data[date]:
+                    task_due_time = datetime.datetime.strptime(
+                        task['time'], '%H:%M').time()
+
+                    if task_due_time > curr_time:
+                        break
+                    else:
+                        add_item_to_dict(upcoming_tasks['overdue'],
+                                         curr_date, task)
+
+            # all task that not filter in overdue can go in on_time
+            else:
+                upcoming_tasks['on_time'][due_date_obj] = \
+                    upcoming_data[date]
+
+    # print(upcoming_tasks)
+    return upcoming_tasks
+
+
+# def get_next7days_tasks(upcoming_on_time_tasks):
+#     """
+#     get upcoming tasks within the next 7 days
+#     :return: dict of upcoming tasks in the next 7 days
+#     """
+#     next7days = [datetime.date.today() + datetime.timedelta(days=i) for i in
+#                  range(8)]
+#
+#     print(next7days)
+#
+#
+# get_next7days_tasks(get_upcoming_tasks()['on_time'])
+
+
+def get_completed_tasks(completed_data):
+    """
+    get completed task within 24h and format to datetime object
+    :return: list of completed tasks within 24 hours
+    """
+
+    completed_tasks = []
+    curr_datetime = datetime.datetime.now()
+    period_24h = datetime.timedelta(days=1)
+
+    for task in completed_data:
+        completed_time_obj = datetime.datetime.strptime(
+            task['completed_time'], '%Y-%m-%d %H:%M')
+
+        if (curr_datetime - completed_time_obj) < period_24h:
+            task['completed_time'] = completed_time_obj
+            completed_tasks.append(task)
+
+    # print(completed_tasks)
+    return completed_tasks
+
+
+def get_user_data():
+    """
+    step app need to run every time the app open - get all user_data and
+    reformat
+    :return: dict of all app data formatted
     """
     try:
         with open('../user_data.json', 'r') as f:
-            data = json.load(f)
+            user_data = json.load(f)
 
-        upcoming_data = data['upcoming']
-        upcoming_tasks = {'overdue': {}, 'on_time': {}}
-        curr_date = datetime.date.today()
+        app_data = {
+            'theme_palette': get_theme_palette(user_data['theme_name']),
+            'largest_id': user_data['largest_id'],
+            'upcoming': get_upcoming_tasks(user_data['upcoming']),
+            'completed': get_completed_tasks(user_data['completed'])
+        }
 
-        for date in upcoming_data:
-            # put all existed overdue tasks to new overdue
-            if date == 'overdue':
-                for overdue_date in upcoming_data['overdue']:
-                    overdue_date_obj = datetime.datetime. \
-                        strptime(overdue_date, "%Y-%m-%d").date()
-                    upcoming_tasks['overdue'][overdue_date_obj] = \
-                        upcoming_data['overdue'][overdue_date]
-
-            # check if task can go to overdue or on_time
-            else:
-                due_date_obj = datetime.datetime. \
-                    strptime(date, "%Y-%m-%d").date()
-
-                # all tasks with date prior than today will go in overdue
-                if due_date_obj < curr_date:
-                    add_item_to_dict(upcoming_tasks['overdue'], due_date_obj,
-                                     upcoming_data[date])
-
-                # if task with today date then check time
-                elif due_date_obj == curr_date:
-                    curr_time = datetime.datetime.now().time()
-
-                    # all tasks with pasted time will go in overdue
-                    for task in upcoming_data[date]:
-                        task_due_time = datetime.datetime.strptime(
-                            task['time'], '%H:%M').time()
-
-                        if task_due_time > curr_time:
-                            break
-                        else:
-                            add_item_to_dict(upcoming_tasks['overdue'],
-                                             curr_date, task)
-
-                # all task that not filter in overdue can go in on_time
-                else:
-                    upcoming_tasks['on_time'][due_date_obj] = \
-                        upcoming_data[date]
-
-        # print(upcoming_tasks)
-        return upcoming_tasks
-
-    except Exception as e:
-        print(e)
-
-
-def get_next7days_tasks(upcoming_on_time_tasks):
-    """
-    :return:
-    """
-    next7days = [date for date in
-                 [datetime.date.today() + datetime.timedelta(days=i) for i in
-                  range(8)]]
-
-    print(next7days)
-
-
-get_next7days_tasks(get_upcoming_tasks()['on_time'])
-
-
-def get_completed_tasks():
-    try:
-        with open('../user_data.json', 'r') as f:
-            data = json.load(f)
-
-        completed_tasks = data['completed']
-        curr_datetime = datetime.datetime.now()
-        period_24h = datetime.timedelta(days=1)
-
-        # remove task completed more than 24 hours
-        for task, index in zip(completed_tasks, range(len(completed_tasks))):
-            completed_time_obj = datetime.datetime.strptime(
-                task['completed_time'], '%Y-%m-%d %H:%M')
-
-            if (curr_datetime - completed_time_obj) > period_24h:
-                del completed_tasks[index]
-            else:
-                task['completed_time'] = completed_time_obj
-
-        # print(completed_tasks)
-        return completed_tasks
+        # print(app_data)
+        return app_data
 
     except Exception as e:
         print(e)
