@@ -6,33 +6,31 @@ import datetime
 # data_time = '%Y-%m-%d %H:%M'
 
 
-def theme_setting(theme_name):
+def get_theme_palette(theme_name):
     """
+    get color data about the <theme_name>
     :param theme_name: name of the theme - todolst, dark
-    :return: color palate for the theme
+    :return: color palette for the theme
     """
-    if theme_name == 'todolst':
-        return {
-            "primary_color": [103 / 255, 58 / 255, 183 / 255, 1],
-            "primary_variant_color": [50 / 255, 11 / 255, 134 / 255, 1],
-            "secondary_color": [255 / 255, 191 / 255, 0, 1],
-            "text_color": [0, 0, 0, 1],
-            "background_color": [1, 1, 1, 1],
-            "good_color": [67 / 255, 160 / 255, 71 / 255, 1],
-            "bad_color": [229 / 255, 57 / 255, 53 / 255, 1]
-        }
-    elif theme_name == 'dark':
-        return {
-            "primary_color": [103 / 255, 58 / 255, 183 / 255, 1],
-            "primary_variant_color": [50 / 255, 11 / 255, 134 / 255, 1],
-            "secondary_color": [255 / 255, 191 / 255, 0, 1],
-            "text_color": [0, 0, 0, 1],
-            "background_color": [1, 1, 1, 1],
-            "good_color": [67 / 255, 160 / 255, 71 / 255, 1],
-            "bad_color": [229 / 255, 57 / 255, 53 / 255, 1]
-        }
-    else:
+    if theme_name not in ['todolst', 'dark']:
         raise ValueError
+
+    try:
+        with open('../assets/theme_palettes.json', 'r') as f:
+            themes_data = json.load(f)
+
+        theme_data = themes_data[theme_name]
+        theme_palette = {}
+
+        for color in theme_data:
+            theme_palette[color] = \
+                [value for value in map(float, theme_data[color].split())]
+
+        # print(theme_palette)
+        return theme_palette
+
+    except Exception as e:
+        print(e)
 
 
 def add_item_to_dict(dict_obj, key, value):
@@ -116,18 +114,18 @@ def get_upcoming_tasks():
         print(e)
 
 
-# def get_next7days_tasks(upcoming_on_time_tasks):
-#     """
-#     :return:
-#     """
-#     next7days = [date for date in
-#                  [datetime.date.today() + datetime.timedelta(days=i) for i in
-#                   range(8)]]
-#
-#     print(next7days)
-#
-#
-# get_next7days_tasks()
+def get_next7days_tasks(upcoming_on_time_tasks):
+    """
+    :return:
+    """
+    next7days = [date for date in
+                 [datetime.date.today() + datetime.timedelta(days=i) for i in
+                  range(8)]]
+
+    print(next7days)
+
+
+get_next7days_tasks(get_upcoming_tasks()['on_time'])
 
 
 def get_completed_tasks():
@@ -154,6 +152,3 @@ def get_completed_tasks():
 
     except Exception as e:
         print(e)
-
-
-get_completed_tasks()
