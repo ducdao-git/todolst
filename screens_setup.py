@@ -12,7 +12,7 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 
 from screen_2 import add_task_to_json, update_remaining_tasks
 
-from screen_4 import populate_tasks
+from screen_4 import WindowFour, Row
 
 
 class WindowOne(Screen):
@@ -31,22 +31,13 @@ class WindowThree(Screen):
     pass
 
 
-class WindowFour(Screen):
-    def on_enter(self, *args):
-        data = []
-        populate_tasks(self, data)
-
-
 class WindowManager(ScreenManager):
     pass
 
 
-screens_kv = Builder.load_file('screens.kv')
-
-
 class ScreensApp(App):
     def build(self):
-        return screens_kv
+        return WindowManager()
 
 
 if __name__ == '__main__':

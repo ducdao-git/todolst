@@ -119,3 +119,15 @@
             on_release:
                 app.root.current = "window_one"
                 root.manager.transition.direction = "right"
+
+<Row@BoxLayout>:
+    height: 10
+    Button:
+        size_hint_x: 10
+        text: "Remove"
+        on_release: root.remove()
+
+    Label:
+        id: task_label
+        size_hint_x: 100
+        text: ""
