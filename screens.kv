@@ -120,12 +120,12 @@
                 app.root.current = "window_one"
                 root.manager.transition.direction = "right"
 
-<Row@BoxLayout>:
+<Row>:
     height: 10
     Button:
+        id: remove_button
         size_hint_x: 10
         text: "Remove"
-        on_release: root.remove()
 
     Label:
         id: task_label
