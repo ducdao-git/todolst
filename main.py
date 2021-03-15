@@ -1,7 +1,12 @@
 from kivy.app import App
+from kivy.config import Config
 
 from libs.get_data import get_user_data
 from screens.upcoming_route import UpcomingRoute
+
+Config.set('graphics', 'resizable', False)
+Config.set('graphics', 'width', '400')
+Config.set('graphics', 'height', '800')
 
 
 class MyApp(App):

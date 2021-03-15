@@ -9,10 +9,10 @@ import datetime
 def get_theme_palette(theme_name):
     """
     get color data about the <theme_name>
-    :param theme_name: name of the theme - todolst, dark
+    :param theme_name: name of the theme - todolst, dark, neutral
     :return: color palette for the theme
     """
-    if theme_name not in ['todolst', 'dark']:
+    if theme_name not in ['todolst', 'dark', 'neutral']:
         raise ValueError
 
     try:
@@ -109,18 +109,13 @@ def get_upcoming_tasks(upcoming_data):
     return upcoming_tasks
 
 
-# def get_next7days_tasks(upcoming_on_time_tasks):
-#     """
-#     get upcoming tasks within the next 7 days
-#     :return: dict of upcoming tasks in the next 7 days
-#     """
-#     next7days = [datetime.date.today() + datetime.timedelta(days=i) for i in
-#                  range(8)]
-#
-#     print(next7days)
-#
-#
-# get_next7days_tasks(get_upcoming_tasks()['on_time'])
+def get_next7dates():
+    """
+    get date for the next 7 days
+    :return: list of next 7 datetime object
+    """
+    return [datetime.date.today() + datetime.timedelta(days=i) for i in
+            range(8)]
 
 
 def get_completed_tasks(completed_data):
