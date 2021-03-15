@@ -53,7 +53,7 @@ class WindowFour(Screen):
              ]
 
     def on_enter(self, *args):
-        self.populate_tasks(self.data)
+        self.populate_tasks()
 
     def on_leave(self):
         self.ids.completed_tasks.clear_widgets()
