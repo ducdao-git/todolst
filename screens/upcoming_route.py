@@ -15,7 +15,7 @@ import calendar
 
 from libs.get_data import get_user_data, get_next7dates
 
-tree_structure = Builder.load_file('upcoming_route.kv')
+Builder.load_file('upcoming_route.kv')
 
 
 class DateDividerLabel(Label):
@@ -94,21 +94,21 @@ class TaskButton(Button):
 
 
 class TaskCheckBox(CheckBox):
-    def __init__(self, root, task_id, **kwargs):
+    def __init__(self, parent, task_id, **kwargs):
         super().__init__(**kwargs)
 
         # bind try to give 2 pos arg to lambda -- checkbox (address, value)
-        self.bind(
-            active=lambda cb_address, cb_value: root.completed_task(task_id,
-                                                                    cb_address))
+        self.bind(active=lambda cb_address, cb_value: parent.complete_task(
+            task_id))
 
 
 class TaskView(BoxLayout):
     def __init__(self, root, task, due_date=None, **kwargs):
         super().__init__(**kwargs)
         self.id = 'task_view_0'
-        checkbox = TaskCheckBox(root, task['id'])
+        checkbox = TaskCheckBox(self, task['id'])
         self.add_widget(checkbox)
+        self.root = root
 
         if due_date is None:
             due_time = task['time']
@@ -119,9 +119,14 @@ class TaskView(BoxLayout):
             TaskButton(subject=task['subject'], due_time=due_time,
                        size_hint=(5, None)))
 
-        # taskview_id = str(task['id'])
         self.bind(minimum_height=self.setter('height'))
-        # self.bind(id=self.setter('id'))
+
+    def complete_task(self, task_id):
+        self.root.completed_task(task_id)
+        Clock.schedule_once(self.remove_taskview, 0.3)
+
+    def remove_taskview(self, *args):
+        self.clear_widgets()
 
 
 class UpcomingRoute(Screen):
@@ -130,12 +135,11 @@ class UpcomingRoute(Screen):
         self.user_data = get_user_data()
         self.upcoming_tasks = self.user_data['upcoming']
         self.theme_palette = self.user_data['theme_palette']
-        Clock.schedule_once(self.build, 1)
+        Clock.schedule_once(self.build, 0)
 
     def build(self, *args):
         self.display_overdue_tasks()
         self.display_on_time_tasks()
-        return tree_structure
 
     def display_date_title(self, date_str_rep):
         self.ids.upcoming_tasks_list_view.add_widget(
@@ -167,8 +171,7 @@ class UpcomingRoute(Screen):
                     self.ids.upcoming_tasks_list_view.add_widget(
                         TaskView(self, task))
 
-    def completed_task(self, task_id, cb_address):
-        # print('checkpoint')
+    def completed_task(self, task_id):
         for status in self.upcoming_tasks:
             for date in self.upcoming_tasks[status]:
                 date_tasks = self.upcoming_tasks[status][date]
@@ -191,5 +194,3 @@ class UpcomingRoute(Screen):
 
             break
         print(self.upcoming_tasks)
-
-        self.ids.upcoming_tasks_list_view.do_layout()
