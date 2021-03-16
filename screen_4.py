@@ -25,16 +25,16 @@ class WindowFour(Screen):
         self.completed_tasks = \
             [{'id': 1, 'subject': 'cs230 hw1', 'time': '2021-03-11 23:59',
               'priority': 'none',
-              'completed_time': datetime.datetime(2021, 3, 1, 10, 30)},
+              'completed_time': datetime.datetime(2021, 3, 16, 10, 30)},
              {'id': 2, 'subject': 'cs230 hw2', 'time': '2021-03-12 23:59',
               'priority': 'none',
-              'completed_time': datetime.datetime(2021, 3, 2, 10, 30)},
+              'completed_time': datetime.datetime(2021, 3, 16, 10, 30)},
              {'id': 3, 'subject': 'cs230 hw3', 'time': '2021-03-13 23:59',
               'priority': 'none',
-              'completed_time': datetime.datetime(2021, 3, 3, 10, 30)},
+              'completed_time': datetime.datetime(2021, 3, 16, 10, 30)},
              {'id': 4, 'subject': 'cs230 hw4', 'time': '2021-03-14 23:59',
               'priority': 'none',
-              'completed_time': datetime.datetime(2021, 3, 4, 10, 30)},
+              'completed_time': datetime.datetime(2021, 3, 16, 10, 30)},
              {'id': 5, 'subject': 'cs230 hw5', 'time': '2021-03-15 23:59',
               'priority': 'none',
               'completed_time': datetime.datetime(2021, 3, 5, 10, 30)},
@@ -51,7 +51,6 @@ class WindowFour(Screen):
               'priority': 'none',
               'completed_time': datetime.datetime(2021, 3, 9, 10, 30)}
              ]
-        self.completed_tasks = []
         self.upcoming_tasks = []
 
     def on_enter(self, *args):
@@ -69,10 +68,8 @@ class WindowFour(Screen):
                 ids_to_remove.append(task['id'])
         self.completed_tasks = [task for task in self.completed_tasks
                                 if task['id'] not in ids_to_remove]
-        print(self.completed_tasks)
 
     def add_task(self, task_to_add):
-        insert_location = 0
         for i in range(len(self.completed_tasks)):
             if self.completed_tasks[i]['id'] > task_to_add['id']:
                 insert_location = i
@@ -93,7 +90,7 @@ class WindowFour(Screen):
         self.upcoming_tasks.append(task_to_remove)
 
     def populate_tasks(self):
-        # self.remove_tasks_completed_more_than_24_hours_ago()
+        self.remove_tasks_completed_more_than_24_hours_ago()
         for i in self.completed_tasks:
             row = Row(i['id'])
 
