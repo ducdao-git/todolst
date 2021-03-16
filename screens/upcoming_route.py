@@ -1,10 +1,12 @@
 from kivy.lang.builder import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen
-from kivy.uix.boxlayout import BoxLayout
+from kivy.clock import Clock
 
+from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
 from kivy.uix.label import Label
 from kivy.uix.checkbox import CheckBox
+
 from kivy.graphics import Color, Rectangle
 from kivy.metrics import dp
 
@@ -13,7 +15,7 @@ import calendar
 
 from libs.get_data import get_user_data, get_next7dates
 
-Builder.load_file('upcoming_route.kv')
+tree_structure = Builder.load_file('upcoming_route.kv')
 
 
 class DateDividerLabel(Label):
@@ -104,7 +106,7 @@ class TaskCheckBox(CheckBox):
 class TaskView(BoxLayout):
     def __init__(self, root, task, due_date=None, **kwargs):
         super().__init__(**kwargs)
-        self.id = str(task['id'])
+        self.id = 'task_view_0'
         checkbox = TaskCheckBox(root, task['id'])
         self.add_widget(checkbox)
 
@@ -117,7 +119,9 @@ class TaskView(BoxLayout):
             TaskButton(subject=task['subject'], due_time=due_time,
                        size_hint=(5, None)))
 
+        # taskview_id = str(task['id'])
         self.bind(minimum_height=self.setter('height'))
+        # self.bind(id=self.setter('id'))
 
 
 class UpcomingRoute(Screen):
@@ -126,11 +130,12 @@ class UpcomingRoute(Screen):
         self.user_data = get_user_data()
         self.upcoming_tasks = self.user_data['upcoming']
         self.theme_palette = self.user_data['theme_palette']
+        Clock.schedule_once(self.build, 1)
 
-        self.display_overdue_tasks(
-            overdue_tasks=self.upcoming_tasks['overdue'])
-        self.display_on_time_tasks(
-            on_time_tasks=self.upcoming_tasks['on_time'])
+    def build(self, *args):
+        self.display_overdue_tasks()
+        self.display_on_time_tasks()
+        return tree_structure
 
     def display_date_title(self, date_str_rep):
         self.ids.upcoming_tasks_list_view.add_widget(
@@ -138,7 +143,8 @@ class UpcomingRoute(Screen):
         self.ids.upcoming_tasks_list_view.add_widget(
             DateDividerLabel())
 
-    def display_overdue_tasks(self, overdue_tasks):
+    def display_overdue_tasks(self):
+        overdue_tasks = self.upcoming_tasks['overdue']
         self.display_date_title(date_str_rep='Overdue')
 
         for date in overdue_tasks:
@@ -146,7 +152,8 @@ class UpcomingRoute(Screen):
                 self.ids.upcoming_tasks_list_view.add_widget(
                     TaskView(self, task, due_date=date.strftime("%b %d")))
 
-    def display_on_time_tasks(self, on_time_tasks):
+    def display_on_time_tasks(self):
+        on_time_tasks = self.upcoming_tasks['on_time']
         due_date = on_time_tasks.keys()
         next_7_dates = get_next7dates()
 
@@ -161,6 +168,28 @@ class UpcomingRoute(Screen):
                         TaskView(self, task))
 
     def completed_task(self, task_id, cb_address):
-        # self.ids['upcoming_tasks_list_view'].remove_widget(a)
-        # print(self.ids['upcoming_tasks_list_view'].ids)
-        print(cb_address.ids, task_id)
+        # print('checkpoint')
+        for status in self.upcoming_tasks:
+            for date in self.upcoming_tasks[status]:
+                date_tasks = self.upcoming_tasks[status][date]
+                for i in range(len(date_tasks)):
+                    if date_tasks[i]['id'] == task_id:
+                        del date_tasks[i]
+
+                        if len(date_tasks) == 0:
+                            del self.upcoming_tasks[status][date]
+
+                        break
+
+                else:  # if no break then continue the loop
+                    continue
+
+                break
+
+            else:  # if inner for loop break then all outer will
+                continue
+
+            break
+        print(self.upcoming_tasks)
+
+        self.ids.upcoming_tasks_list_view.do_layout()
