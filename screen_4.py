@@ -22,7 +22,7 @@ class WindowFour(Screen):
     def __init__(self, **kw):
         super().__init__(**kw)
 
-        self.data = \
+        self.completed_tasks = \
             [{'id': 1, 'subject': 'cs230 hw1', 'time': '2021-03-11 23:59',
               'priority': 'none',
               'completed_time': datetime.datetime(2021, 3, 1, 10, 30)},
@@ -51,6 +51,8 @@ class WindowFour(Screen):
               'priority': 'none',
               'completed_time': datetime.datetime(2021, 3, 9, 10, 30)}
              ]
+        self.completed_tasks = []
+        self.upcoming_tasks = []
 
     def on_enter(self, *args):
         self.populate_tasks()
@@ -61,29 +63,42 @@ class WindowFour(Screen):
     def remove_tasks_completed_more_than_24_hours_ago(self):
         ids_to_remove = []
         current_time = datetime.datetime.today()
-        for task in self.data:
+        for task in self.completed_tasks:
             time_difference = current_time - task['completed_time']
             if time_difference.days > 1:
                 ids_to_remove.append(task['id'])
-        self.data = [task for task in self.data
-                     if task['id'] not in ids_to_remove]
-        print(self.data)
+        self.completed_tasks = [task for task in self.completed_tasks
+                                if task['id'] not in ids_to_remove]
+        print(self.completed_tasks)
+
+    def add_task(self, task_to_add):
+        insert_location = 0
+        for i in range(len(self.completed_tasks)):
+            if self.completed_tasks[i]['id'] > task_to_add['id']:
+                insert_location = i
+                break
+        else:
+            insert_location = len(self.completed_tasks)
+        self.completed_tasks.insert(insert_location, task_to_add)
+
+    def remove_row(self, pressed_button, *args):
+        task_to_remove = {}
+        for task in self.completed_tasks:
+            if task['id'] == pressed_button.parent.id:
+                task_to_remove = task
+                self.completed_tasks.remove(task)
+                break
+        self.ids.completed_tasks.remove_widget(pressed_button.parent)
+        # Move the removed task to the upcoming list.
+        self.upcoming_tasks.append(task_to_remove)
 
     def populate_tasks(self):
-        self.remove_tasks_completed_more_than_24_hours_ago()
-
-        def remove_row(*args):
-            pressed_button = args[0]
-            for task in self.data:
-                if task['id'] == pressed_button.parent.id:
-                    self.data.remove(task)
-                    break
-            self.ids.completed_tasks.remove_widget(pressed_button.parent)
-
-        for i in self.data:
+        # self.remove_tasks_completed_more_than_24_hours_ago()
+        for i in self.completed_tasks:
             row = Row(i['id'])
 
             row.ids.task_label.text = f'Subject: {i["subject"]}\nTime:{i["time"]}'
-            row.ids.remove_button.bind(on_release=remove_row)
+            row.ids.remove_button.bind(on_release=self.remove_row)
 
             self.ids.completed_tasks.add_widget(row)
+
