@@ -1,12 +1,6 @@
-<TaskButton@Button>
+<DateDividerLabel, TaskDividerLabel@Label>
     size_hint: 1, None
-    background_down: ''
-    background_normal: ''
-    background_color: [0, 0, 1, 0]
-    markup: True
-    halign: 'left'
-    valign: 'center'
-    color: [0, 0, 0, 1]
+    height: dp(1)
 
 
 <DateButton@Button>
@@ -21,9 +15,20 @@
     color: [0, 0, 0, 1]
 
 
-<DateDividerLabel, TaskDividerLabel@Label>
+<TaskButton@Button>
     size_hint: 1, None
-    height: dp(1)
+    background_down: ''
+    background_normal: ''
+    background_color: [0, 0, 1, 0]
+    markup: True
+    halign: 'left'
+    valign: 'center'
+    color: [0, 0, 0, 1]
+
+
+<TaskCheckBox@CheckBox>
+    size_hint: 1, 1
+    color: [1, 0, 0, 1]
 
 
 <TaskView@BoxLayout>
@@ -71,9 +76,9 @@
                         size: self.size
                         pos: self.pos
 
-                GridLayout: # must specify height to scrollable
+                BoxLayout: # must specify height to scrollable
                     id: upcoming_tasks_list_view
-                    cols: 1
+                    orientation: 'vertical'
                     size_hint_y: None
                     height: self.minimum_height  # minimum_height is min height to contain all children
 #                    spacing: [0, dp(4)]

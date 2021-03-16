@@ -9,12 +9,42 @@ from kivy.graphics import Color, Rectangle
 from kivy.metrics import dp
 
 from math import ceil
-from datetime import datetime
 import calendar
 
 from libs.get_data import get_user_data, get_next7dates
 
 Builder.load_file('upcoming_route.kv')
+
+
+class DateDividerLabel(Label):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+
+        with self.canvas.before:
+            Color(1, 0, 0, 1)
+            self.rect = Rectangle()
+
+        self.bind(pos=self.update_rect, size=self.update_rect)
+
+    def update_rect(self, *args):
+        self.rect.pos = self.pos
+        self.rect.size = self.size
+
+
+# don't use as the layout look more complex if add - keep for future use
+# class TaskDividerLabel(Label):
+#     def __init__(self, **kwargs):
+#         super().__init__(**kwargs)
+#
+#         with self.canvas.before:
+#             Color(1, 0, 0, 1)
+#             self.rect = Rectangle()
+#
+#         self.bind(pos=self.update_rect, size=self.update_rect)
+#
+#     def update_rect(self, *args):
+#         self.rect.pos = (self.pos[0] + dp(16), self.pos[1])
+#         self.rect.size = (self.size[0] - dp(16), self.size[1])
 
 
 class DateButton(Button):
@@ -41,10 +71,10 @@ class TaskButton(Button):
     custom button use for display task info
     """
 
-    def __init__(self, subject, due_date, **kwargs):
+    def __init__(self, subject, due_time, **kwargs):
         super().__init__(**kwargs)
         self.text = f'{subject}\n[size={int(dp(16))}][color=228135]' + \
-                    f'{due_date}[/color][/size]'
+                    f'{due_time}[/color][/size]'
 
         self.bind(size=self.update_text_size)
         self.bind(texture_size=self.update_height)
@@ -61,41 +91,31 @@ class TaskButton(Button):
             self.height = self.texture_size[1] + dp(12)
 
 
-class DateDividerLabel(Label):
-    def __init__(self, **kwargs):
+class TaskCheckBox(CheckBox):
+    def __init__(self, root, task_id, **kwargs):
         super().__init__(**kwargs)
 
-        with self.canvas.before:
-            Color(1, 0, 0, 1)
-            self.rect = Rectangle()
-
-        self.bind(pos=self.update_rect, size=self.update_rect)
-
-    def update_rect(self, *args):
-        self.rect.pos = self.pos
-        self.rect.size = self.size
-
-
-class TaskDividerLabel(Label):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-
-        with self.canvas.before:
-            Color(1, 0, 0, 1)
-            self.rect = Rectangle()
-
-        self.bind(pos=self.update_rect, size=self.update_rect)
-
-    def update_rect(self, *args):
-        self.rect.pos = (self.pos[0] + dp(16), self.pos[1])
-        self.rect.size = (self.size[0] - dp(16), self.size[1])
+        # bind try to give 2 pos arg to lambda -- checkbox (address, value)
+        self.bind(
+            active=lambda cb_address, cb_value: root.completed_task(task_id,
+                                                                    cb_address))
 
 
 class TaskView(BoxLayout):
-    def __init__(self, subject, due_date, **kwargs):
+    def __init__(self, root, task, due_date=None, **kwargs):
         super().__init__(**kwargs)
-        self.add_widget(CheckBox(size_hint=(1, 1), color=[1, 0, 0, 1]))
-        self.add_widget(TaskButton(subject, due_date, size_hint=(5, None)))
+        self.id = str(task['id'])
+        checkbox = TaskCheckBox(root, task['id'])
+        self.add_widget(checkbox)
+
+        if due_date is None:
+            due_time = task['time']
+        else:
+            due_time = due_date + ' ' + task['time']
+
+        self.add_widget(
+            TaskButton(subject=task['subject'], due_time=due_time,
+                       size_hint=(5, None)))
 
         self.bind(minimum_height=self.setter('height'))
 
@@ -112,47 +132,35 @@ class UpcomingRoute(Screen):
         self.display_on_time_tasks(
             on_time_tasks=self.upcoming_tasks['on_time'])
 
-    def display_overdue_tasks(self, overdue_tasks):
+    def display_date_title(self, date_str_rep):
         self.ids.upcoming_tasks_list_view.add_widget(
-            DateButton(text='Overdue'))
+            DateButton(text=date_str_rep))
         self.ids.upcoming_tasks_list_view.add_widget(
             DateDividerLabel())
+
+    def display_overdue_tasks(self, overdue_tasks):
+        self.display_date_title(date_str_rep='Overdue')
 
         for date in overdue_tasks:
             for task in overdue_tasks[date]:
                 self.ids.upcoming_tasks_list_view.add_widget(
-                    TaskView(subject=task['subject'],
-                             due_date=str(date) + ' ' + task['time']))
-                # self.ids.upcoming_tasks_list_view.add_widget(
-                #     TaskDividerLabel())
+                    TaskView(self, task, due_date=date.strftime("%b %d")))
 
     def display_on_time_tasks(self, on_time_tasks):
-        count = 0
-        for date in on_time_tasks:
-            next_7_dates = get_next7dates()
-            if date > next_7_dates[-1]:
-                break
+        due_date = on_time_tasks.keys()
+        next_7_dates = get_next7dates()
 
-            # while date > next_7_dates[count]:
-            #     missing_date = next_7_dates[count]
-            #     display_date = calendar.day_name[missing_date.weekday()][
-            #                    :3] + ' ' + missing_date.strftime("%b %d")
-            #     self.ids.upcoming_tasks_list_view.add_widget(
-            #         DateButton(text=str(display_date)))
-            #     self.ids.upcoming_tasks_list_view.add_widget(
-            #         DateDividerLabel())
-            #     count += 1
-
+        for date in next_7_dates:
             display_date = calendar.day_name[date.weekday()][
                            :3] + ' ' + date.strftime("%b %d")
-            self.ids.upcoming_tasks_list_view.add_widget(
-                DateButton(text=str(display_date)))
-            self.ids.upcoming_tasks_list_view.add_widget(
-                DateDividerLabel())
+            self.display_date_title(date_str_rep=display_date)
 
-            for task in on_time_tasks[date]:
-                self.ids.upcoming_tasks_list_view.add_widget(
-                    TaskView(subject=task['subject'],
-                             due_date=str(date) + ' ' + task['time']))
-                # self.ids.upcoming_tasks_list_view.add_widget(
-                #     TaskDividerLabel())
+            if date in due_date:
+                for task in on_time_tasks[date]:
+                    self.ids.upcoming_tasks_list_view.add_widget(
+                        TaskView(self, task))
+
+    def completed_task(self, task_id, cb_address):
+        # self.ids['upcoming_tasks_list_view'].remove_widget(a)
+        # print(self.ids['upcoming_tasks_list_view'].ids)
+        print(cb_address.ids, task_id)
