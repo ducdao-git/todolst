@@ -1,5 +1,6 @@
 from kivy.app import App
 from kivy.config import Config
+from kivy.lang.builder import Builder
 
 from libs.get_data import get_user_data
 from screens.upcoming_route import UpcomingRoute
@@ -7,6 +8,9 @@ from screens.upcoming_route import UpcomingRoute
 Config.set('graphics', 'resizable', False)
 Config.set('graphics', 'width', '400')
 Config.set('graphics', 'height', '800')
+
+Builder.load_file('libs/custom_kv_widget.kv')
+Builder.load_file('upcoming_route.kv')
 
 
 class MyApp(App):

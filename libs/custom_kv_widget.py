@@ -7,6 +7,7 @@ from kivy.clock import Clock
 from kivy.graphics import Color, Rectangle
 from kivy.metrics import dp
 
+from kivysome import icon
 from math import ceil
 
 
@@ -97,7 +98,13 @@ class TaskView(BoxLayout):
         self.bind(minimum_height=self.setter('height'))
 
     def complete_task(self, task_id):
-        Clock.schedule_once(lambda *args: self.remove_taskview(task_id), 0.2)
+        Clock.schedule_once(lambda *args: self.remove_taskview(task_id), 0.3)
 
     def remove_taskview(self, task_id):
         self.root.completed_task(task_id, taskview_ref=self)
+
+
+class IconButton(Button):
+    def __init__(self, icon_code, icon_size=20, **kwargs):
+        super().__init__(**kwargs)
+        self.text = "%s" % icon(icon_code, icon_size)

@@ -1,4 +1,3 @@
-from kivy.lang.builder import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.clock import Clock
 
@@ -6,8 +5,6 @@ import calendar
 
 from libs.get_data import get_user_data, get_next7dates
 from libs.custom_kv_widget import DateButton, DateDividerLabel, TaskView
-
-Builder.load_file('upcoming_route.kv')
 
 
 class UpcomingRoute(Screen):
