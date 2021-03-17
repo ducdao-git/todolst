@@ -32,7 +32,7 @@ def get_theme_palette(theme_name):
         raise ValueError
 
     try:
-        with open('../assets/theme_palettes.json', 'r') as f:
+        with open('assets/theme_palettes.json', 'r') as f:
             themes_data = json.load(f)
 
         theme_data = themes_data[theme_name]
@@ -165,7 +165,7 @@ def get_user_data():
     :return: dict of all app data formatted
     """
     try:
-        with open('../user_data.json', 'r') as f:
+        with open('user_data.json', 'r') as f:
             user_data = json.load(f)
 
         app_data = {

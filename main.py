@@ -14,10 +14,10 @@ Config.set('graphics', 'height', '800')
 # Config.set('graphics', 'height', '900')
 
 kivysome.enable("https://kit.fontawesome.com/4adb19bb6e.js",
-                group=kivysome.FontGroup.SOLID)
+                group=kivysome.FontGroup.SOLID, font_folder="assets/fonts")
 
 Builder.load_file('libs/custom_kv_widget.kv')
-Builder.load_file('upcoming_route.kv')
+Builder.load_file('screens/upcoming_route.kv')
 
 
 class MyApp(App):
