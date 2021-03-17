@@ -3,8 +3,10 @@ import kivysome
 from kivy.app import App
 from kivy.config import Config
 from kivy.lang.builder import Builder
+from kivy.uix.screenmanager import ScreenManager
 
 from libs.get_data import get_user_data
+from libs.data_handler import ProcessTaskHandler
 from screens.upcoming_route import UpcomingRoute
 
 Config.set('graphics', 'resizable', False)
@@ -21,15 +23,19 @@ Builder.load_file('screens/upcoming_route.kv')
 
 
 class MyApp(App):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.user_data = get_user_data()
-        self.theme_palette = self.user_data['theme_palette']
+    user_data = get_user_data()
+    theme_palette = user_data['theme_palette']
+    route_manager = ScreenManager()
+
+    def process_task_handler(self, _to, task):
+        ProcessTaskHandler(app=self, _to=_to, task=task)
 
     def build(self):
-        return UpcomingRoute()
+        self.route_manager.add_widget(UpcomingRoute(app=self))
+        return self.route_manager
 
     def on_stop(self):
+        print(self.user_data)
         print("the program now closing")
 
 
