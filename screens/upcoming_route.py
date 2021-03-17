@@ -15,9 +15,8 @@ class UpcomingRoute(Screen):
         # obj python pass by ref -> edit app data within class
         self.upcoming_tasks = app.user_data['upcoming']
 
-        Clock.schedule_once(lambda *args: self.build(), 0)
-
-    def build(self):
+    def on_enter(self, *args):
+        self.ids.upcoming_scrollview.clear_widgets()
         self.display_overdue_tasks()
         self.display_on_time_tasks()
 
