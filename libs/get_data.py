@@ -5,6 +5,22 @@ import datetime
 # date = '%Y-%m-%d'
 # data_time = '%Y-%m-%d %H:%M'
 
+def _hex_to_rgb(hex_color):
+    """
+    :param hex_color: valid hex code of a color
+    :return: rgba value each between 0 and 1
+    """
+    hex_color = hex_color.lstrip('#')
+    hex_color = list(int(hex_color[i:i + 2], 16) for i in (0, 2, 4))
+
+    result = []
+    for value in hex_color:
+        result.append(round(value / 255, 3))
+
+    result.append(1.0)
+
+    return result
+
 
 def get_theme_palette(theme_name):
     """
@@ -23,8 +39,10 @@ def get_theme_palette(theme_name):
         theme_palette = {}
 
         for color in theme_data:
-            theme_palette[color] = \
-                [value for value in map(float, theme_data[color].split())]
+            if color == "good_color" or color == "bad_color":
+                theme_palette[color] = theme_data[color]
+            else:
+                theme_palette[color] = _hex_to_rgb(theme_data[color])
 
         # print(theme_palette)
         return theme_palette

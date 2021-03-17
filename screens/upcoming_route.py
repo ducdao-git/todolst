@@ -19,12 +19,6 @@ class UpcomingRoute(Screen):
         self.display_overdue_tasks()
         self.display_on_time_tasks()
 
-    def display_date_title(self, date_str_rep):
-        self.ids.upcoming_scrollview.add_widget(
-            DateButton(text=date_str_rep))
-        self.ids.upcoming_scrollview.add_widget(
-            DateDividerLabel())
-
     def display_overdue_tasks(self):
         overdue_tasks = self.upcoming_tasks['overdue']
         self.display_date_title(date_str_rep='Overdue')
@@ -32,7 +26,8 @@ class UpcomingRoute(Screen):
         for date in overdue_tasks:
             for task in overdue_tasks[date]:
                 self.ids.upcoming_scrollview.add_widget(
-                    TaskView(self, task, due_date=date.strftime("%b %d")))
+                    TaskView(self, task, due_date=date.strftime("%b %d"),
+                             overdue=True))
 
     def display_on_time_tasks(self):
         on_time_tasks = self.upcoming_tasks['on_time']
@@ -48,6 +43,12 @@ class UpcomingRoute(Screen):
                 for task in on_time_tasks[date]:
                     self.ids.upcoming_scrollview.add_widget(
                         TaskView(self, task))
+
+    def display_date_title(self, date_str_rep):
+        self.ids.upcoming_scrollview.add_widget(
+            DateButton(text=date_str_rep))
+        self.ids.upcoming_scrollview.add_widget(
+            DateDividerLabel())
 
     def completed_task(self, task_id, taskview_ref):
         # find task by id

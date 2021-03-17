@@ -7,7 +7,6 @@ from kivy.clock import Clock
 from kivy.graphics import Color, Rectangle
 from kivy.metrics import dp
 
-from kivysome import icon
 from math import ceil
 
 
@@ -16,7 +15,7 @@ class DateDividerLabel(Label):
         super().__init__(**kwargs)
 
         with self.canvas.before:
-            Color(1, 0, 0, 1)
+            Color(rgba=self.color)
             self.rect = Rectangle()
 
         self.bind(pos=self.update_rect, size=self.update_rect)
@@ -50,10 +49,19 @@ class TaskButton(Button):
     custom button use for display task info
     """
 
-    def __init__(self, subject, due_time, **kwargs):
+    def __init__(self, subject, due_time, overdue=False, **kwargs):
         super().__init__(**kwargs)
-        self.text = f'{subject}\n[size={int(dp(16))}][color=228135]' + \
-                    f'{due_time}[/color][/size]'
+        if overdue:
+            duetime_color = self.bad_color
+            duetime_icon = self.overdue_icon
+
+        else:
+            duetime_color = self.good_color
+            duetime_icon = self.ontime_icon
+
+        due_time = f'[size=14sp]{duetime_icon}  {due_time}[/size]'
+        self.text = f'{subject}\n' + \
+                    f'[color={duetime_color}]{due_time}[/color]'
 
         self.bind(size=self.update_text_size)
         self.bind(texture_size=self.update_height)
@@ -79,7 +87,7 @@ class TaskCheckBox(CheckBox):
 
 
 class TaskView(BoxLayout):
-    def __init__(self, root, task, due_date=None, **kwargs):
+    def __init__(self, root, task, due_date=None, overdue=False, **kwargs):
         super().__init__(**kwargs)
         self.id = 'task_view_0'
         checkbox = TaskCheckBox(self, task['id'])
@@ -93,7 +101,7 @@ class TaskView(BoxLayout):
 
         self.add_widget(
             TaskButton(subject=task['subject'], due_time=due_time,
-                       size_hint=(5, None)))
+                       overdue=overdue, size_hint=(5, None)))
 
         self.bind(minimum_height=self.setter('height'))
 
@@ -102,9 +110,3 @@ class TaskView(BoxLayout):
 
     def remove_taskview(self, task_id):
         self.root.completed_task(task_id, taskview_ref=self)
-
-
-class IconButton(Button):
-    def __init__(self, icon_code, icon_size=20, **kwargs):
-        super().__init__(**kwargs)
-        self.text = "%s" % icon(icon_code, icon_size)

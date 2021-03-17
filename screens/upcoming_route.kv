@@ -15,9 +15,8 @@
                     size: self.size
                     pos: self.pos
 
-        Label:
-            text: 'action bar'
-            color: app.theme_palette['action_bar_text_color']
+        BoxLayout:  # action bar
+            orientation: 'horizontal'
             size_hint: 1, None
             height: dp(56)
             canvas.before:
@@ -27,13 +26,24 @@
                     size: self.size
                     pos: self.pos
 
-        FloatLayout:
+            RouteTitleLabel:
+                text: ' ' * 3 + 'Upcoming'
+
+            IconButton:
+                text: "%s" % icon('calendar-check')
+                color: app.theme_palette['text_primary_color']
+
+            IconButton:
+                text: "%s" % icon('cog')
+                color: app.theme_palette['text_primary_color']
+
+
+        FloatLayout:  # layout for tasks view and add button
             ScrollView:
                 do_scroll: False, True
                 canvas.before:
                     Color:
                         rgba: app.theme_palette['background_color']
-#                        rgba: [1,0,0,0.5]
                     Rectangle:
                         size: self.size
                         pos: self.pos
@@ -43,7 +53,6 @@
                     orientation: 'vertical'
                     size_hint_y: None
                     height: self.minimum_height  # minimum_height is min height to contain all children
-#                    spacing: [0, dp(4)]
                     padding: [dp(12), dp(12), dp(12), dp(12)]
 
             AnchorLayout:
@@ -51,13 +60,13 @@
                 anchor_y: 'bottom'
                 padding: [0, 0, dp(16), dp(16)]
 
-                Button:
+                IconButton:
                     size_hint: None, None
                     size: dp(50), dp(50)
                     background_normal: ''
                     background_color: [0, 0, 0, 0]
-                    text: '+'
-                    font_size: 40
+                    text: "%s" % icon('plus')
+                    color: app.theme_palette['text_secondary_color']
 
                     canvas.before:
                         Color:
