@@ -1,0 +1,57 @@
+#: import icon kivysome.icon
+
+
+<RouteTitleLabel@Label>
+    size_hint: 7, 1
+    text_size: self.size
+    halign: 'left'
+    valign: 'center'
+    font_size: sp(20)
+    color: app.theme_palette['text_primary_color']
+
+
+<DateDividerLabel>
+    size_hint: 1, None
+    height: dp(1.5)
+    color: app.theme_palette['divider_color']
+
+
+<IconButton@Button>
+    size_hint: 1, 1
+    halign: 'center'
+    valign: 'center'
+    font_size: sp(20)
+
+
+<DateButton, TaskButton, IconButton>
+    size_hint: 1, None
+    background_down: ''
+    background_normal: ''
+    background_color: [1, 1, 0, 0]
+    markup: True
+    halign: 'left'
+    valign: 'center'
+    color: app.theme_palette['text_background_color']
+
+
+<DateButton>
+    height: dp(40)
+
+
+<TaskButton>
+    font_size: sp(16)
+    ontime_icon: "%s" % icon('hourglass-half')
+    overdue_icon: "%s" % icon('hourglass-end')
+    good_color: app.theme_palette['good_color']
+    bad_color: app.theme_palette['bad_color']
+
+
+<TaskCheckBox>
+    size_hint: 1, 1
+    color: app.theme_palette['divider_color']
+
+
+<TaskView>
+    size_hint: 1, None
+    orientation: 'horizontal'
+

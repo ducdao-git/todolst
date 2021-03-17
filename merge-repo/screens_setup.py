@@ -12,8 +12,6 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 
 from screen_2 import add_task_to_json, update_remaining_tasks
 
-from screen_4 import WindowFour, Row
-
 
 class WindowOne(Screen):
     pass

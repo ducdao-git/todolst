@@ -128,8 +128,8 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-# json sample files
-*.json
-
-# Pycharm files
+# Other
 .idea/
+.DS_Store
+test/
+
