@@ -69,6 +69,9 @@
                     background_color: [0, 0, 0, 0]
                     text: "%s" % icon('plus')
                     color: app.theme_palette['text_secondary_color']
+                    on_release:
+                        app.root.current = "add_task_route"
+                        root.manager.transition.direction = 'up'
 
                     canvas.before:
                         Color:

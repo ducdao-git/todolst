@@ -1,7 +1,7 @@
+import calendar
+
 from kivy.uix.screenmanager import Screen
 from kivy.clock import Clock
-
-import calendar
 
 from libs.get_data import get_next7dates
 from libs.custom_kv_widget import DateButton, DateDividerLabel, TaskView
@@ -15,9 +15,9 @@ class UpcomingRoute(Screen):
         # obj python pass by ref -> edit app data within class
         self.upcoming_tasks = app.user_data['upcoming']
 
-        Clock.schedule_once(self.build, 0)
+        Clock.schedule_once(lambda *args: self.build(), 0)
 
-    def build(self, *args):
+    def build(self):
         self.display_overdue_tasks()
         self.display_on_time_tasks()
 
