@@ -1,0 +1,58 @@
+<CompletedRoute>:
+    name: "completed_route"
+
+    BoxLayout:
+        orientation: 'vertical'
+        size: root.size
+
+        Label:
+            text: 'Completed tasks'
+            size_hint: 1, None
+            height: dp(56)
+#            text_size: None, dp(56)
+            canvas.before:
+                Color:
+                    rgba: app.theme_palette['primary_variant_color']
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+
+        BoxLayout:  # action bar
+            size_hint: 1, None
+            height: dp(56)
+            canvas.before:
+                Color:
+                    rgba: app.theme_palette['primary_color']
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+
+            IconButton:
+                text: "   %s" % icon('arrow-left')
+                color: app.theme_palette['text_primary_color']
+                halign: 'left'
+                on_release:
+                    app.root.current = "upcoming_route"
+                    root.manager.transition.direction = 'right'
+
+            IconButton:
+                text: "%s" % icon('cog')
+                color: app.theme_palette['text_primary_color']
+                halign: 'right'
+                padding_x: 0, 100
+
+        ScrollView:
+            do_scroll: False, True
+            canvas.before:
+                Color:
+                    rgba: app.theme_palette['background_color']
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+
+            BoxLayout:
+                id: completed_tasks
+                orientation: 'vertical'
+                size_hint_y: None
+                height: self.minimum_height
+                padding: [dp(12), dp(12), dp(12), dp(12)]
