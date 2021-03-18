@@ -54,7 +54,8 @@ def get_theme_palette(theme_name):
 def add_item_to_dict(dict_obj, key, value):
     """
     add an item to a list inside a dict or create a list contain this item in
-    the dict
+    the with it's associate date key in dict
+    -> in dict_obj -- key: [value]
     :param dict_obj: dictionary will hold this list
     :param key: key for the list
     :param value: value of the item

@@ -1,0 +1,140 @@
+<ResizableTextInput@TextInput>:
+    font_size: sp(16)
+    multiline: True
+    cursor_color: app.theme_palette['primary_color']
+    size_hint: 1, None
+    size: self.height, self.minimum_height
+    padding: [dp(12), dp(4)]
+
+
+<RoundedButton@IconButton>
+    height: dp(40)
+    color: app.theme_palette['text_background_color']
+    border: (30, 30, 30, 30)
+
+    canvas.before:
+        Color:
+            rgba: [1, 0, 0, 1]
+        RoundedRectangle:
+            radius: [(20.0, 20.0), (20.0, 20.0), (20.0, 20.0), (20.0, 20.0)]
+            pos: self.pos[0] + dp(5), self.pos[1]
+            size: self.size[0] - dp(10), self.size[1]
+
+
+<AddTaskRoute>:
+    name: "add_task_route"
+
+    AnchorLayout:
+        anchor_x: 'center'
+        anchor_y: 'center'
+
+        canvas.before:
+            Color:
+                rgba: app.theme_palette['background_color']
+#                rgba: [1,0,0,1]
+            Rectangle:
+                size: self.size
+                pos: self.pos
+
+        BoxLayout:
+            orientation: 'vertical'
+
+            canvas.before:
+                Color:
+                    rgba: app.theme_palette['primary_color']
+                Triangle:
+                    points: [0, self.size[1], self.size[1], 0, self.size[1], self.size[1]]
+
+        BoxLayout:
+            orientation: 'vertical'
+
+            canvas.before:
+                Color:
+                    rgba: app.theme_palette['primary_variant_color']
+                Triangle:
+                    points: [self.size[1], 0, 0, self.size[1], 0, 0]
+
+        BoxLayout:
+            orientation: 'vertical'
+            size_hint: 0.8, 0.2
+
+            canvas.before:
+                Color:
+                    rgba: app.theme_palette['background_color']
+                RoundedRectangle:
+                    size: (self.width, self.height * 2)
+                    pos: self.pos
+                    radius: [75,]
+
+        BoxLayout:  # consider as a card
+            orientation: 'vertical'
+            size_hint: 0.8, 0.2
+            spacing: dp(16)
+
+            canvas.before:
+                Color:
+                    rgba: app.theme_palette['background_color']
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+
+            # must inside this anchorlayout so new line will put top instead of bot
+            AnchorLayout:
+                anchor_y: 'bottom'
+
+                BoxLayout:
+                    orientation: 'vertical'
+                    size_hint: 1, None
+                    height: self.minimum_height
+                    spacing: dp(16)
+
+                    canvas.before:
+                        Color:
+                            rgba: [0,1,0,0]
+                        Rectangle:
+                            size: self.size
+                            pos: self.pos
+
+                    ResizableTextInput:
+                        id: task_input_subject
+                        hint_text: 'Add a task'
+
+                    ResizableTextInput:
+                        multiline: False
+                        id: task_input_time
+                        hint_text: 'Add task due time'
+
+            BoxLayout:
+                orientation: 'horizontal'
+                size_hint: 1, None
+                height: self.minimum_height
+
+                canvas.before:
+                    Color:
+                        rgba: app.theme_palette['background_color']
+                    RoundedRectangle:
+                        size: (self.width, self.height * -4)
+                        pos: self.pos
+                        radius: [50,]
+
+                RoundedButton:
+                    height: dp(30)
+                    text: "%s" % icon('flag')
+                    on_release: pass
+
+                RoundedButton:
+                    height: dp(30)
+                    text: "%s" % icon('plus')
+
+            RoundedButton:
+                height: dp(40)
+                text: "%s" % icon('paper-plane')
+                on_release: pass
+
+        BoxLayout:
+            AsyncImage:
+                size_hint_y: 0.3
+                source: 'http://www.workflowmax.com/hubfs/6-things-to-do-list.png'
+                size_hint_x: 0.2
+                allow_stretch: True
+                keep_ratio: True

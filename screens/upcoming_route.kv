@@ -2,7 +2,6 @@
     name: 'upcoming_route'
 
     BoxLayout:
-        id: screen
         size: root.size
         orientation: 'vertical'
 
@@ -34,6 +33,9 @@
             IconButton:
                 text: "%s" % icon('calendar-check')
                 color: app.theme_palette['text_primary_color']
+                on_release:
+                    app.root.current = "completed_route"
+                    root.manager.transition.direction = 'left'
 
             IconButton:
                 text: "%s" % icon('cog')
