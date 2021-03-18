@@ -87,10 +87,11 @@ class TaskCheckBox(CheckBox):
 
 
 class TaskView(BoxLayout):
-    def __init__(self, root, task, due_date=None, overdue=False, **kwargs):
+    def __init__(self, root, task, due_date=None, overdue=False,
+                 checkbox_active=False, **kwargs):
         super().__init__(**kwargs)
-        self.id = 'task_view_0'
-        checkbox = TaskCheckBox(self, task['id'])
+        # self.id = 'task_view_0'
+        checkbox = TaskCheckBox(self, task['id'], active=checkbox_active)
         self.add_widget(checkbox)
         self.root = root
 

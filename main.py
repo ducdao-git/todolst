@@ -31,8 +31,8 @@ class MyApp(App):
     theme_palette = user_data['theme_palette']
     route_manager = ScreenManager()
 
-    def process_task_handler(self, _to, task):
-        ProcessTaskHandler(app=self, _to=_to, task=task)
+    def process_task_handler(self, _to, task, date=None):
+        ProcessTaskHandler(app=self, _to=_to, task=task, _date=date)
 
     def build(self):
         self.route_manager.add_widget(UpcomingRoute(app=self))

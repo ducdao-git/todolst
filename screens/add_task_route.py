@@ -52,7 +52,6 @@ class AddTaskRoute(Screen):
     def __init__(self, app, **kwargs):
         super().__init__(**kwargs)
         self.app = app
-        self.largest_id = app.user_data['largest_id']
 
     def add_task_to_upcoming(self):
         """
@@ -67,10 +66,10 @@ class AddTaskRoute(Screen):
         elif not self.ids.subject.text and not self.ids.time.text:
             return
 
-        self.largest_id += 1
+        self.app.user_data["largest_id"] += 1
 
         new_task = {
-            "id": self.largest_id,
+            "id": self.app.user_data["largest_id"],
             "subject": self.ids.subject.text,
             "time": _create_due_time(self.ids.time.text),
             "priority": "none"
