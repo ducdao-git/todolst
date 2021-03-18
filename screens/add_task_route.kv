@@ -1,19 +1,18 @@
 <AddTaskRoute>:
     name: "add_task_route"
 
-
     GridLayout:
         cols:1
 
         TextInput:
-            id: body
+            id: subject
             multiline: True
-            hint_text: 'Enter the task that you want to complete here.'
+            hint_text: 'Add task description'
 
         TextInput:
             id: time
             multiline: True
-            hint_text: 'Enter the time that you want to complete the task by here.'
+            hint_text: 'Add task due date'
 
         Label:
             text: "Is this task of high priority? Switch to 'ON' if so."
@@ -27,18 +26,11 @@
 
             Button:
                 text: "Register Task"
-#                on_release:
-#                    root.add_task()
+                on_press: root.add_task_to_upcoming()
 
             Button:
                 text: "Go Back"
                 on_release:
+                    root.add_task_to_upcoming()
                     app.root.current = "upcoming_route"
                     root.manager.transition.direction = "down"
-#                    root.update_tasks()
-
-
-
-
-
-
