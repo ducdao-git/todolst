@@ -16,11 +16,6 @@
     color: app.theme_palette['divider_color']
 
 
-<IconButton@Button>
-    size_hint: 1, 1
-    halign: 'center'
-    valign: 'center'
-    font_size: sp(20)
 
 
 <DateButton, TaskButton, IconButton>
@@ -33,6 +28,12 @@
     valign: 'center'
     color: app.theme_palette['text_background_color']
 
+<IconButton@Button>
+    size_hint: 1, 1
+    text_size: self.size
+    halign: 'center'
+    valign: 'center'
+    font_size: sp(20)
 
 <DateButton>
     height: dp(40)

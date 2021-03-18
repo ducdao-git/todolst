@@ -83,7 +83,7 @@ class TaskCheckBox(CheckBox):
         super().__init__(**kwargs)
 
         # active return 2 pos arg to lambda -- checkbox address, checkbox value
-        self.bind(active=lambda *args: parent.complete_task(task_id))
+        self.bind(active=lambda *args: parent.remove_task(task_id))
 
 
 class TaskView(BoxLayout):
@@ -105,8 +105,11 @@ class TaskView(BoxLayout):
 
         self.bind(minimum_height=self.setter('height'))
 
-    def complete_task(self, task_id):
+    def remove_task(self, task_id):
         Clock.schedule_once(lambda *args: self.remove_taskview(task_id), 0.3)
 
     def remove_taskview(self, task_id):
-        self.root.completed_task(task_id, taskview_ref=self)
+        if self.root.name == 'upcoming_route':
+            self.root.completed_task(task_id, taskview_ref=self)
+        elif self.root.name == 'completed_route':
+            self.root.remove_task(task_id, self)
