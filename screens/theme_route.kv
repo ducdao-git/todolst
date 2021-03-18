@@ -53,31 +53,36 @@
                 height: self.minimum_height
                 padding: [dp(12), dp(12), dp(12), dp(12)]
 
-<ThemeLayout@BoxLayout>
+<ThemeLayout>
     orientation: "vertical"
     size_hint: 1, None
-
     BoxLayout:
-        canvas.before:
-            Color:
-                rgba: 0, 0, 0, 1
-            Line:
-                width: 1
-                rectangle: self.x, self.y, self.width, self.height
-
+        id: overlay
         orientation: 'vertical'
-        Button:
-            id: primary_color_label_button
-            background_normal: ''
         BoxLayout:
-            id: bottom_layout
-            orientation: 'horizontal'
-            CheckBox:
-                id: choice_checkbox
-                size_hint_x: 2
-                group: 'theme_choices'
+            canvas.before:
+                Color:
+                    rgba: 0, 0, 0, 1
+                Line:
+                    width: 1
+                    rectangle: self.x, self.y, self.width, self.height
+
+            orientation: 'vertical'
             Button:
-                id: space_filling_label_button
+                id: primary_color_label_button
                 background_normal: ''
-                size_hint_x: 20
+            BoxLayout:
+                id: bottom_layout
+                orientation: 'horizontal'
+                CheckBox:
+                    size_hint_x: 2
+                    id: choice_checkbox
+                    allow_stretch: True
+                    group: 'theme_choices'
+                    disabled: True
+                    border:(0,0,0,0)
+                Button:
+                    id: space_filling_label_button
+                    background_normal: ''
+                    size_hint_x: 20
 
