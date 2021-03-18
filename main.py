@@ -1,5 +1,4 @@
 import kivysome
-import json
 
 from kivy.app import App
 from kivy.config import Config
@@ -44,19 +43,7 @@ class MyApp(App):
 
     def on_stop(self):
         self.process_task_handler(_to='save_file', task='')
-        print(self.user_data)
-        print("the program now closing")
-
-    # def save_user_data(self):
-    #     # new_data = {
-    #     #     "theme_name": self.user_data['theme_name'],
-    #     #     "largest_id": self.user_data['largest_id'],
-    #     #     "upcoming":
-    #     #     "completed":
-    #     # }
-    #
-    #     with open('user_data.json', 'w') as outfile:
-    #         json.dump(self.user_data, outfile)
+        # print(self.user_data)
 
 
 if __name__ == '__main__':

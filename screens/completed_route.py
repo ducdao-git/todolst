@@ -28,9 +28,7 @@ class CompletedRoute(Screen):
         self.ids.completed_tasks.remove_widget(task_view)
 
     def populate_tasks(self):
-        print('\n before', self.completed_tasks)
         self.remove_tasks_completed_more_than_24_hours_ago()
-        print('\n after', self.completed_tasks)
 
         for task in self.completed_tasks:
             row = TaskView(self, task, checkbox_active=True)

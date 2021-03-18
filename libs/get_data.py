@@ -125,7 +125,7 @@ def get_upcoming_tasks(upcoming_data):
                 upcoming_tasks['on_time'][due_date_obj] = \
                     upcoming_data[date]
 
-    print(upcoming_tasks)
+    # print(upcoming_tasks)
     return upcoming_tasks
 
 
