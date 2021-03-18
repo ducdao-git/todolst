@@ -114,7 +114,8 @@ def get_upcoming_tasks(upcoming_data):
                         task['time'], '%H:%M').time()
 
                     if task_due_time > curr_time:
-                        break
+                        add_item_to_dict(upcoming_tasks['on_time'],
+                                         curr_date, task)
                     else:
                         add_item_to_dict(upcoming_tasks['overdue'],
                                          curr_date, task)
@@ -170,7 +171,7 @@ def get_user_data():
             user_data = json.load(f)
 
         app_data = {
-            'theme_palette': get_theme_palette(user_data['theme_name']),
+            'theme_name': user_data['theme_name'],
             'largest_id': user_data['largest_id'],
             'upcoming': get_upcoming_tasks(user_data['upcoming']),
             'completed': get_completed_tasks(user_data['completed'])

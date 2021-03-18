@@ -15,7 +15,7 @@ class UpcomingRoute(Screen):
         # obj python pass by ref -> edit app data within class
         self.upcoming_tasks = app.user_data['upcoming']
 
-    def on_enter(self, *args):
+    def on_pre_enter(self, *args):
         self.display_overdue_tasks()
         self.display_on_time_tasks()
 
@@ -56,12 +56,17 @@ class UpcomingRoute(Screen):
     def completed_task(self, task_id, taskview_ref):
         # move task from upcoming to completed by id
         for status in self.upcoming_tasks:
+
             for date in self.upcoming_tasks[status]:
                 date_tasks = self.upcoming_tasks[status][date]
+
                 for i in range(len(date_tasks)):
                     if date_tasks[i]['id'] == task_id:
-                        self.app.process_task_handler('completed',
-                                                      date_tasks[i])
+                        self.app.process_task_handler(
+                            'completed',
+                            date_tasks[i],
+                            date=str(date)
+                        )
                         del date_tasks[i]
 
                         if len(date_tasks) == 0:
