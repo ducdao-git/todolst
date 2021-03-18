@@ -1,12 +1,13 @@
-<CompletedRoute>:
-    name: "completed_route"
+#: import icon kivysome.icon
+
+<ThemeRoute>:
+    name: "theme_route"
 
     BoxLayout:
         orientation: 'vertical'
         size: root.size
 
         Label:
-            valign: 'center'
             text: 'Completed tasks'
             size_hint: 1, None
             height: dp(56)
@@ -32,18 +33,8 @@
                 color: app.theme_palette['text_primary_color']
                 halign: 'left'
                 on_release:
-                    app.root.current = "upcoming_route"
+                    app.root.current = app.root.return_route
                     root.manager.transition.direction = 'right'
-
-            IconButton:
-                text: "%s" % icon('cog')
-                color: app.theme_palette['text_primary_color']
-                halign: 'right'
-                padding_x: 0, 100
-                on_release:
-                    app.root.current = "theme_route"
-                    root.manager.transition.direction = 'right'
-                    app.root.return_route = 'completed_route'
 
         ScrollView:
             do_scroll: False, True
@@ -55,8 +46,38 @@
                     pos: self.pos
 
             BoxLayout:
-                id: completed_tasks
+                id: themes
                 orientation: 'vertical'
+                spacing: 20
                 size_hint_y: None
                 height: self.minimum_height
                 padding: [dp(12), dp(12), dp(12), dp(12)]
+
+<ThemeLayout@BoxLayout>
+    orientation: "vertical"
+    size_hint: 1, None
+
+    BoxLayout:
+        canvas.before:
+            Color:
+                rgba: 0, 0, 0, 1
+            Line:
+                width: 1
+                rectangle: self.x, self.y, self.width, self.height
+
+        orientation: 'vertical'
+        Button:
+            id: primary_color_label_button
+            background_normal: ''
+        BoxLayout:
+            id: bottom_layout
+            orientation: 'horizontal'
+            CheckBox:
+                id: choice_checkbox
+                size_hint_x: 2
+                group: 'theme_choices'
+            Button:
+                id: space_filling_label_button
+                background_normal: ''
+                size_hint_x: 20
+
