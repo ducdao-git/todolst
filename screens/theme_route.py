@@ -50,6 +50,9 @@ class ThemeRoute(Screen):
         theme_choice = ThemeLayout(theme_name, theme_dict)
         self.ids.themes.add_widget(theme_choice)
 
-    def on_enter(self, *args):
+    def on_pre_enter(self, *args):
         self.add_theme_choice('todolst', self.normal_theme)
         self.add_theme_choice('dark', self.dark_theme)
+
+    def on_leave(self, *args):
+        self.ids.themes.clear_widgets()

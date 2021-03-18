@@ -40,6 +40,10 @@
             IconButton:
                 text: "%s" % icon('cog')
                 color: app.theme_palette['text_primary_color']
+                on_release:
+                    app.root.current = "theme_route"
+                    root.manager.transition.direction = 'right'
+                    app.root.return_route = 'completed_route'
 
         ScrollView:
             do_scroll: False, True

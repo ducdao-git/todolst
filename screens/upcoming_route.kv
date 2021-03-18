@@ -40,6 +40,10 @@
             IconButton:
                 text: "%s" % icon('cog')
                 color: app.theme_palette['text_primary_color']
+                on_release:
+                    app.root.current = "theme_route"
+                    root.manager.transition.direction = 'left'
+                    app.root.return_route = 'upcoming_route'
 
 
         FloatLayout:  # layout for tasks view and add button
