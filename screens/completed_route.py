@@ -1,8 +1,5 @@
 import datetime
 
-from kivy.uix.boxlayout import BoxLayout
-from kivy.uix.button import Button
-from kivy.uix.label import Label
 from kivy.uix.screenmanager import Screen
 from libs.custom_kv_widget import TaskView
 
@@ -17,38 +14,7 @@ class CompletedRoute(Screen):
     def __init__(self, app, **kw):
         super().__init__(**kw)
         self.app = app
-
-        # Fetch data.
-        # self.completed_tasks = self.app.user_data['completed']
-        self.completed_tasks = \
-            [{'id': 1, 'subject': 'cs230 hw1', 'time': '2021-03-11 23:59',
-              'priority': 'none',
-              'completed_time': datetime.datetime(2021, 3, 16, 10, 30)},
-             {'id': 2, 'subject': 'cs230 hw2', 'time': '2021-03-12 23:59',
-              'priority': 'none',
-              'completed_time': datetime.datetime(2021, 3, 16, 10, 30)},
-             {'id': 3, 'subject': 'cs230 hw3', 'time': '2021-03-13 23:59',
-              'priority': 'none',
-              'completed_time': datetime.datetime(2021, 3, 16, 10, 30)},
-             {'id': 4, 'subject': 'cs230 hw4', 'time': '2021-03-14 23:59',
-              'priority': 'none',
-              'completed_time': datetime.datetime(2021, 3, 16, 10, 30)},
-             {'id': 5, 'subject': 'cs230 hw5', 'time': '2021-03-15 23:59',
-              'priority': 'none',
-              'completed_time': datetime.datetime(2021, 3, 5, 10, 30)},
-             {'id': 6, 'subject': 'cs230 hw6', 'time': '2021-03-16 23:59',
-              'priority': 'none',
-              'completed_time': datetime.datetime(2021, 3, 6, 10, 30)},
-             {'id': 7, 'subject': 'cs230 hw7', 'time': '2021-03-17 23:59',
-              'priority': 'none',
-              'completed_time': datetime.datetime(2021, 3, 7, 10, 30)},
-             {'id': 8, 'subject': 'cs230 hw8', 'time': '2021-03-18 23:59',
-              'priority': 'none',
-              'completed_time': datetime.datetime(2021, 3, 8, 10, 30)},
-             {'id': 9, 'subject': 'cs230 hw9', 'time': '2021-03-19 23:59',
-              'priority': 'none',
-              'completed_time': datetime.datetime(2021, 3, 9, 10, 30)}
-             ]
+        self.completed_tasks = self.app.user_data['completed']
 
     def on_enter(self, *args):
         self.populate_tasks()

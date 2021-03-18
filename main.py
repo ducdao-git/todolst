@@ -36,8 +36,8 @@ class MyApp(App):
 
     def build(self):
         self.route_manager.add_widget(UpcomingRoute(app=self))
-        self.route_manager.add_widget(CompletedRoute(app=self))
         self.route_manager.add_widget(AddTaskRoute(app=self))
+        self.route_manager.add_widget(CompletedRoute(app=self))
 
         return self.route_manager
 

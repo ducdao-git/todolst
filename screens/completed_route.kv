@@ -6,10 +6,9 @@
         size: root.size
 
         Label:
-            text: 'Completed tasks'
+            text: 'status bar'
             size_hint: 1, None
-            height: dp(56)
-#            text_size: None, dp(56)
+            height: dp(24)
             canvas.before:
                 Color:
                     rgba: app.theme_palette['primary_variant_color']
@@ -18,6 +17,7 @@
                     pos: self.pos
 
         BoxLayout:  # action bar
+            orientation: 'horizontal'
             size_hint: 1, None
             height: dp(56)
             canvas.before:
@@ -28,18 +28,18 @@
                     pos: self.pos
 
             IconButton:
-                text: "   %s" % icon('arrow-left')
+                text: "%s" % icon('chevron-left')
                 color: app.theme_palette['text_primary_color']
-                halign: 'left'
                 on_release:
                     app.root.current = "upcoming_route"
                     root.manager.transition.direction = 'right'
 
+            RouteTitleLabel:
+                text: ' Completed tasks'
+
             IconButton:
                 text: "%s" % icon('cog')
                 color: app.theme_palette['text_primary_color']
-                halign: 'right'
-                padding_x: 0, 100
 
         ScrollView:
             do_scroll: False, True

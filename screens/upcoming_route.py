@@ -16,9 +16,11 @@ class UpcomingRoute(Screen):
         self.upcoming_tasks = app.user_data['upcoming']
 
     def on_enter(self, *args):
-        self.ids.upcoming_scrollview.clear_widgets()
         self.display_overdue_tasks()
         self.display_on_time_tasks()
+
+    def on_leave(self, *args):
+        self.ids.upcoming_scrollview.clear_widgets()
 
     def display_overdue_tasks(self):
         overdue_tasks = self.upcoming_tasks['overdue']
