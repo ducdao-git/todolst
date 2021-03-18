@@ -5,7 +5,7 @@ from kivy.config import Config
 from kivy.lang.builder import Builder
 from kivy.uix.screenmanager import ScreenManager
 
-from libs.get_data import get_user_data
+from libs.get_data import get_user_data, get_theme_palette
 from libs.data_handler import ProcessTaskHandler
 from screens.upcoming_route import UpcomingRoute
 from screens.add_task_route import AddTaskRoute
@@ -28,11 +28,11 @@ Builder.load_file('screens/completed_route.kv')
 
 class MyApp(App):
     user_data = get_user_data()
-    theme_palette = user_data['theme_palette']
+    theme_palette = get_theme_palette(user_data['theme_name'])
     route_manager = ScreenManager()
 
-    def process_task_handler(self, _to, task):
-        ProcessTaskHandler(app=self, _to=_to, task=task)
+    def process_task_handler(self, _to, task, date=None):
+        ProcessTaskHandler(app=self, _to=_to, task=task, _date=date)
 
     def build(self):
         self.route_manager.add_widget(UpcomingRoute(app=self))
@@ -42,8 +42,8 @@ class MyApp(App):
         return self.route_manager
 
     def on_stop(self):
-        print(self.user_data)
-        print("the program now closing")
+        self.process_task_handler(_to='save_file', task='')
+        # print(self.user_data)
 
 
 if __name__ == '__main__':
