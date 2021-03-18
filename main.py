@@ -1,11 +1,12 @@
 import kivysome
+import json
 
 from kivy.app import App
 from kivy.config import Config
 from kivy.lang.builder import Builder
 from kivy.uix.screenmanager import ScreenManager
 
-from libs.get_data import get_user_data
+from libs.get_data import get_user_data, get_theme_palette
 from libs.data_handler import ProcessTaskHandler
 from screens.upcoming_route import UpcomingRoute
 from screens.add_task_route import AddTaskRoute
@@ -28,7 +29,7 @@ Builder.load_file('screens/completed_route.kv')
 
 class MyApp(App):
     user_data = get_user_data()
-    theme_palette = user_data['theme_palette']
+    theme_palette = get_theme_palette(user_data['theme_name'])
     route_manager = ScreenManager()
 
     def process_task_handler(self, _to, task, date=None):
@@ -42,8 +43,20 @@ class MyApp(App):
         return self.route_manager
 
     def on_stop(self):
+        self.process_task_handler(_to='save_file', task='')
         print(self.user_data)
         print("the program now closing")
+
+    # def save_user_data(self):
+    #     # new_data = {
+    #     #     "theme_name": self.user_data['theme_name'],
+    #     #     "largest_id": self.user_data['largest_id'],
+    #     #     "upcoming":
+    #     #     "completed":
+    #     # }
+    #
+    #     with open('user_data.json', 'w') as outfile:
+    #         json.dump(self.user_data, outfile)
 
 
 if __name__ == '__main__':
