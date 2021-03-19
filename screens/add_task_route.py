@@ -75,7 +75,7 @@ class AddTaskRoute(Screen):
             "priority": "none"
         }
 
-        self.ids.subject.subject = ''
         self.ids.subject.text = ''
+        self.ids.time.text = ''
 
         self.app.process_task_handler('upcoming', new_task)

@@ -55,3 +55,52 @@
 <TaskView>
     size_hint: 1, None
     orientation: 'horizontal'
+
+
+<ResizableTextInput@TextInput>:
+    size_hint: 8, None
+    size: self.height, self.minimum_height
+    background_color: [1, 0, 0, 0]
+    cursor_color: app.theme_palette['primary_color']
+    padding: [dp(8), dp(8)]
+    write_tab: False
+    font_size: sp(16)
+    multiline: True
+    color: app.theme_palette['text_background_color']
+
+
+<InputLayout@BoxLayout>:
+    orientation: 'horizontal'
+    size_hint: 1, None
+    height: self.minimum_height
+
+    canvas.before:
+        Color:
+            rgba: app.theme_palette['divider_color']
+        RoundedRectangle:
+            pos: self.pos
+            size: self.size
+
+
+<AddTaskTitle@Label>
+    size_hint: 1, None
+    text_size: self.width, None
+    size: self.texture_size
+    padding: [dp(8), 0]
+    font_size: sp(30)
+    valign: 'center'
+    halign: 'left'
+    color: app.theme_palette['text_background_color']
+
+
+<RoundedConnerButton@IconButton>
+    size_hint: 1, None
+    height: dp(35)
+    color: app.theme_palette['text_background_color']
+    button_color: [0, 0, 0, 0]
+    canvas.before:
+        Color:
+            rgba: self.button_color
+        RoundedRectangle:
+            pos: self.pos[0] + dp(5), self.pos[1]
+            size: self.size[0] - dp(10), self.size[1]
