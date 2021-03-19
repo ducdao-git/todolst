@@ -15,11 +15,11 @@
     "dark": {
     "primary_color": "#222831",
     "primary_variant_color": "#393e46",
-    "secondary_color": "#393e46",
+    "secondary_color": "#808080",
     "background_color": "#000000",
     "divider_color": "#e0e0e0",
     "text_primary_color": "#ffffff",
-    "text_primary_variant_color": "#82279e",
+    "text_primary_variant_color": "#ffffff",
     "text_secondary_color": "#ffffff",
     "text_background_color": "#ffffff",
     "good_color": "#409250",
