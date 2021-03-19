@@ -1,0 +1,86 @@
+#: import icon kivysome.icon
+
+<ThemeRoute>:
+    name: "theme_route"
+
+    BoxLayout:
+        orientation: 'vertical'
+        size: root.size
+
+        Label:
+            text: 'Completed tasks'
+            size_hint: 1, None
+            height: dp(24)
+            canvas.before:
+                Color:
+                    rgba: app.theme_palette['primary_variant_color']
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+
+        BoxLayout:  # action bar
+            size_hint: 1, None
+            height: dp(56)
+            canvas.before:
+                Color:
+                    rgba: app.theme_palette['primary_color']
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+
+            IconButton:
+                text: "   %s" % icon('arrow-left')
+                color: app.theme_palette['text_primary_color']
+                halign: 'left'
+                on_release:
+                    app.root.current = app.root.return_route
+                    root.manager.transition.direction = 'right'
+
+        ScrollView:
+            do_scroll: False, True
+            canvas.before:
+                Color:
+                    rgba: app.theme_palette['background_color']
+                Rectangle:
+                    size: self.size
+                    pos: self.pos
+
+            BoxLayout:
+                id: themes
+                orientation: 'vertical'
+                spacing: 20
+                size_hint_y: None
+                height: self.minimum_height
+                padding: [dp(12), dp(12), dp(12), dp(12)]
+
+<ThemeLayout>
+    orientation: "vertical"
+    size_hint: 1, None
+    BoxLayout:
+        id: overlay
+        orientation: 'vertical'
+        BoxLayout:
+            id: primary_layout
+            canvas.before:
+                Color:
+                    rgba: 0, 0, 0, 1
+                Line:
+                    width: 1
+                    rectangle: self.x, self.y, self.width, self.height
+
+            orientation: 'vertical'
+            Button:
+                id: primary_color_label_button
+                background_normal: ''
+            BoxLayout:
+                orientation: 'horizontal'
+                IconButton:
+                    id: choice_checkbox
+                    size_hint_x: 2
+                    background_normal: ''
+                IconButton:
+                    id: space_filling_label_button
+                    halign: 'left'
+                    text: "[color=#808080]%s[/color]" % icon('grip-lines')*10
+                    background_normal: ''
+                    size_hint_x: 20
