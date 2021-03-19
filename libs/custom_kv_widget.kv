@@ -55,3 +55,38 @@
 <TaskView>
     size_hint: 1, None
     orientation: 'horizontal'
+
+<ErrorPopup>
+    background_color: (0, 0, 0, 0)
+    size_hint: (0.8, 0.25)
+    text_color: app.theme_palette['text_primary_color']
+    BoxLayout:
+        canvas:
+            Color:
+                rgba: app.theme_palette['primary_color']
+            RoundedRectangle:
+                pos: self.pos
+                size: self.size
+
+        orientation: 'vertical'
+        Button:
+            id: message_label
+            background_normal: ''
+            background_down: ''
+            valign: 'center'
+            halign: 'center'
+            background_color: app.theme_palette['primary_variant_color']
+            color: app.theme_palette['text_primary_variant_color']
+            text_size: self.size
+            size_hint_y: 2
+            text: ''
+        Button:
+            background_normal: ''
+            background_down: ''
+            background_color: app.theme_palette['secondary_color']
+            color: app.theme_palette['text_secondary_color']
+            valign: 'center'
+            size_hint_y: 1
+            text: 'OK'
+            on_release:
+                root.dismiss()

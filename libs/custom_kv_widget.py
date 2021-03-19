@@ -1,7 +1,10 @@
+from kivy.properties import ListProperty
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.button import Button
 from kivy.uix.label import Label
 from kivy.uix.checkbox import CheckBox
+from kivy.uix.modalview import ModalView
+from kivy.uix.popup import Popup
 
 from kivy.clock import Clock
 from kivy.graphics import Color, Rectangle
@@ -114,3 +117,9 @@ class TaskView(BoxLayout):
             self.root.completed_task(task_id, taskview_ref=self)
         elif self.root.name == 'completed_route':
             self.root.remove_task(task_id, self)
+
+
+class ErrorPopup(ModalView):
+    def __init__(self, message, **kwargs):
+        super().__init__(**kwargs)
+        self.ids.message_label.text = message
