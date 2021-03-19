@@ -48,7 +48,7 @@
             BoxLayout:
                 id: themes
                 orientation: 'vertical'
-                spacing: 20
+                spacing: dp(20)
                 size_hint_y: None
                 height: self.minimum_height
                 padding: [dp(12), dp(12), dp(12), dp(12)]
@@ -65,7 +65,7 @@
                 Color:
                     rgba: 0, 0, 0, 1
                 Line:
-                    width: 1
+                    width: dp(1)
                     rectangle: self.x, self.y, self.width, self.height
 
             orientation: 'vertical'
@@ -76,11 +76,11 @@
                 orientation: 'horizontal'
                 IconButton:
                     id: choice_checkbox
-                    size_hint_x: 2
+                    size_hint_x: dp(2)
                     background_normal: ''
                 IconButton:
                     id: space_filling_label_button
                     halign: 'left'
                     text: "[color=#808080]%s[/color]" % icon('grip-lines')*10
                     background_normal: ''
-                    size_hint_x: 20
+                    size_hint_x: dp(20)
