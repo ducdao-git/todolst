@@ -10,7 +10,7 @@
         Label:
             text: 'Completed tasks'
             size_hint: 1, None
-            height: dp(56)
+            height: dp(24)
             canvas.before:
                 Color:
                     rgba: app.theme_palette['primary_variant_color']
@@ -60,6 +60,7 @@
         id: overlay
         orientation: 'vertical'
         BoxLayout:
+            id: primary_layout
             canvas.before:
                 Color:
                     rgba: 0, 0, 0, 1
@@ -72,17 +73,14 @@
                 id: primary_color_label_button
                 background_normal: ''
             BoxLayout:
-                id: bottom_layout
                 orientation: 'horizontal'
-                CheckBox:
-                    size_hint_x: 2
+                IconButton:
                     id: choice_checkbox
-                    allow_stretch: True
-                    group: 'theme_choices'
-                    disabled: True
-                    border:(0,0,0,0)
-                Button:
+                    size_hint_x: 2
+                    background_normal: ''
+                IconButton:
                     id: space_filling_label_button
+                    halign: 'left'
+                    text: "[color=#808080]%s[/color]" % icon('grip-lines')*10
                     background_normal: ''
                     size_hint_x: 20
-

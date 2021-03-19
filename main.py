@@ -47,7 +47,24 @@ class MyApp(App):
 
     def on_stop(self):
         self.process_task_handler(_to='save_file', task='')
-        # print(self.user_data)
+
+    def refresh_theme(self):
+        Builder.unload_file('libs/custom_kv_widget.kv')
+        Builder.unload_file('screens/upcoming_route.kv')
+        Builder.unload_file('screens/add_task_route.kv')
+        Builder.unload_file('screens/completed_route.kv')
+        Builder.unload_file('screens/theme_route.kv')
+
+        Builder.load_file('libs/custom_kv_widget.kv')
+        Builder.load_file('screens/upcoming_route.kv')
+        Builder.load_file('screens/add_task_route.kv')
+        Builder.load_file('screens/completed_route.kv')
+        Builder.load_file('screens/theme_route.kv')
+        self.route_manager.clear_widgets()
+        self.route_manager.add_widget(ThemeRoute(app=self))
+        self.route_manager.add_widget(UpcomingRoute(app=self))
+        self.route_manager.add_widget(AddTaskRoute(app=self))
+        self.route_manager.add_widget(CompletedRoute(app=self))
 
 
 if __name__ == '__main__':
