@@ -60,18 +60,17 @@
                     on_release: pass
 
                 RoundedConnerButton:
+                    id: add_btn
                     text: "%s" % icon('plus')
                     color: app.theme_palette['text_secondary_color']
                     button_color: app.theme_palette['secondary_color']
-                    on_press: root.add_task_to_upcoming()
+                    on_press: root.add_task_to_upcoming(self)
 
             RoundedConnerButton:
+                id: add_leave_btn
                 height: dp(40)
                 text: "%s" % icon('paper-plane')
                 color: app.theme_palette['text_primary_color']
                 button_color: app.theme_palette['primary_color']
-                on_release:
-                    root.add_task_to_upcoming()
-                    app.root.current = "upcoming_route"
-                    root.manager.transition.direction = "down"
+                on_release: root.add_task_to_upcoming(self)
 
