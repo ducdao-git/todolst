@@ -26,8 +26,10 @@ def _create_due_time(datetime_rep):
     datetime_rep = datetime_rep.lower()
     datetime_lst = datetime_rep.split()
 
-    if len(datetime_lst) == 1:
+    if len(datetime_lst) < 3 and ':' not in datetime_rep:
         datetime_lst.append('23:59')
+    elif len(datetime_lst) == 1 and ':' in datetime_rep:
+        datetime_lst.insert(0, 'tdy')
 
     for i in range(len(datetime_lst)):
 
